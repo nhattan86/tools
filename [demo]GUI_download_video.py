@@ -161,8 +161,11 @@ class VideoDownloaderGUI:
             
     def download_youtube(self, url, quality, download_type):
         try:
-            yt = YouTube(url)
-            yt.register_on_progress_callback(self.update_progress)
+            # Register the progress callback on creation
+            yt = YouTube(
+                url,
+                on_progress_callback=self.update_progress
+            )
             
             if download_type == "video":
                 if quality == "highest":
@@ -179,7 +182,7 @@ class VideoDownloaderGUI:
                 os.makedirs("downloads")
             
             # Download the video
-            filename = stream.download("downloads")
+            stream.download(output_path="downloads")
             
             # Add to download history
             self.add_to_history({
@@ -202,8 +205,7 @@ class VideoDownloaderGUI:
             
     def download_facebook(self, url, quality, download_type):
         try:
-            # Note: Facebook video downloading requires additional implementation
-            # due to Facebook's security measures
+            # Facebook download remains unimplemented
             self.window.after(0, lambda: self.status_label.configure(
                 text="Facebook download not implemented yet")
             )
