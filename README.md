@@ -13,7 +13,7 @@ updating...
 
 ## Installation
 
-To use any of the tools in this repository, you need to have Python installed on your machine. You can download Python from [python.org](https://www.python.org/).
+To use any of the tools in this repository, you need to have Python installed on your machine. You can download Python from [https://www.python.org/](https://www.python.org/).
 
 Clone the repository using the following command:
 
