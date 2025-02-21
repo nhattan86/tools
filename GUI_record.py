@@ -1,3 +1,5 @@
+# pip install pillow opencv-python pygetwindow sounddevice numpy
+
 import tkinter as tk
 from tkinter import ttk
 from PIL import ImageGrab
