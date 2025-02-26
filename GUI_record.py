@@ -1,3 +1,5 @@
+# pip install PyQt5 pyautogui opencv-python sounddevice scipy numpy
+
 import sys
 import os
 import time
@@ -167,13 +169,25 @@ class RecordingThread(QThread):
                 except Exception as e:
                     self.error_occurred.emit(f"Audio processing error: {str(e)}")
                     # Fallback to just the video
-                    os.rename(temp_video_file, self.output_file)
+                    try:  # Use shutil.move for cross-device move (copy and delete)
+                        shutil.move(temp_video_file, self.output_file)
+                    except Exception as move_e:
+                        self.error_occurred.emit(f"Error moving video file (fallback): {str(move_e)}")
+                        return # Stop if even fallback move fails
             else:
-                # Just rename the video file if no audio
-                os.rename(temp_video_file, self.output_file)
+                # Just move the video file if no audio
+                try:  # Use shutil.move for cross-device move
+                    shutil.move(temp_video_file, self.output_file)
+                except Exception as move_e:
+                    self.error_occurred.emit(f"Error moving video file: {str(move_e)}")
+                    return # Stop if move fails
         else:
-            # Just rename the video file if no audio recording was requested
-            os.rename(temp_video_file, self.output_file)
+            # Just move the video file if no audio recording was requested
+            try:  # Use shutil.move for cross-device move
+                shutil.move(temp_video_file, self.output_file)
+            except Exception as move_e:
+                self.error_occurred.emit(f"Error moving video file: {str(move_e)}")
+                return # Stop if move fails
 
         # Signal that recording is complete
         self.recording_complete.emit(self.output_file)
