@@ -1,3 +1,5 @@
+# pip install customtkinter pyperclip
+
 import customtkinter as ctk
 import random
 import string
